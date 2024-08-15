@@ -14,7 +14,7 @@ const authMiddleware = require("./middleware/autoMiddleware");
 
 const cors = require("cors");
 
-const port = 5050;
+const port = process.env.PORT;
 app.use(cors());
 //db connection
 const dbconnection = require("./db/dbConfig");
