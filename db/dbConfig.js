@@ -1,19 +1,11 @@
-const msql = require('mysql2')
+const mysql2 = require("mysql2");
 
-const dbconnection = msql.createPool({
-  user: "evangadi-admin",
-  database: "evagadi-db",
-  host: "localhost",
-  password: "123456",
-  connectionLimit:10
-})
+const dbconnection = mysql2.createConnection({
+  user: "evangadi_form",         
+  database: "evangadi_db",     
+  host: "localhost",         //address of the database server
+  password: "12345678",    
+  connectionLimit: 10,
+});
 
-// dbconnection.execute("select 'test' ", (err, result) => {
-//   if (err) {
-//     console.log(err.message)
-//   } else {
-//     console.log(result)
-//   }
-// })
-
-module.exports = dbconnection.promise()
+module.exports = dbconnection.promise();

@@ -1,37 +1,48 @@
+const express = require("express");
+const app = express();
 
-const express = require("express")
-const app = express()
 //importing the userRoute middleware
-const route = require('./routes/userRoute')
-const port = 5050
+const userRoute = require("./routes/userRoute");
+const AnswerquestionRoute = require("./routes/answerRoute");
+// Imports routes for question
+const questionRoutes = require("./routes/qestionRoute");
 
-//db connection 
-const dbconnection = require('./db/dbConfig')
+// Imports routes for answer
+const answerRoutes = require("./routes/answerRoute");
+//middleware importing
+const authMiddleware = require("./middleware/autoMiddleware");
 
+const cors = require("cors");
+
+const port = 5050;
+app.use(cors());
+//db connection
+const dbconnection = require("./db/dbConfig");
+
+//json middleware file
+app.use(express.json());
 
 //use the middleware route
-app.use('/api/user', route)
+app.use("/api/user", userRoute);
+
+///  using authMiddleware for authentication before questionRoutes handles the request.
+app.use("/api", authMiddleware, questionRoutes);
+
+//  using authMiddleware for authentication before answerRoutes handles the request.
+app.use("/api", authMiddleware, answerRoutes);
 
 async function start() {
   try {
-    const result = await dbconnection.execute("select 'test' ")
-    // await app.listen(port)
-    console.log(`listening to ${port}`)
-    console.log('database connected')
+    const result = await dbconnection.execute("select 'test' ");
+    await app.listen(port);
+    console.log(`listening to ${port}`);
+    console.log("database connected");
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
 }
-start()
+start();
 
-app.get('/', (req, res) => {
-  res.send("wellcome")
-})
-
-// app.listen(port, (err) => {
-//   if (err) {
-//     console.log(err)
-//   } else {
-//     console.log(`listening to ${port}`)
-//   }
-// })
+app.get("/", (req, res) => {
+  res.send("wellcome");
+});
