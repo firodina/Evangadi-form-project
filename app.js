@@ -14,7 +14,7 @@ const authMiddleware = require("./middleware/autoMiddleware");
 
 const cors = require("cors");
 
-const port = process.env.PORT;
+const port = 5050;
 app.use(cors());
 //db connection
 const dbconnection = require("./db/dbConfig");
@@ -32,14 +32,10 @@ app.use("/api", authMiddleware, questionRoutes);
 app.use("/api", authMiddleware, answerRoutes);
 
 async function start() {
-  try {
-    const result = await dbconnection.execute("select 'test' ");
-    await app.listen(port);
-    console.log(`listening to ${port}`);
-    console.log("database connected");
-  } catch (error) {
-    console.log(error.message);
-  }
+  
+ app.listen(port);
+  console.log(`listening to ${port}`);
+  console.log("database connected");
 }
 start();
 

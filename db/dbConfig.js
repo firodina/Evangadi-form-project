@@ -1,11 +1,11 @@
-const mysql2 = require("mysql2");
+const mysql2 = require("mysql");
 
-const dbconnection = mysql2.createConnection({
-  user: "evangadi_form",         
-  database: "evangadi_db",     
-  host: "localhost",         //address of the database server
-  password: "12345678",    
+const dbconnection = mysql2.createPool({
+  user:process.env.USER,
+  database:  process.env.DATABASE,     
+  host: process.env.LOCALHOST ,         //address of the database server
+  password:process.env.PASSWORD ,    
   connectionLimit: 10,
 });
 
-module.exports = dbconnection.promise();
+module.exports = dbconnection;
